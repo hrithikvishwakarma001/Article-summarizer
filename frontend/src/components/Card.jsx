@@ -1,4 +1,4 @@
-import { Button, Card, Input, Loading, Text } from "@nextui-org/react";
+import { Button, Card, Input, Loading } from "@nextui-org/react";
 import React from "react";
 import summarize from "../api/summarize.api";
 
@@ -11,7 +11,7 @@ export default function Cards() {
 		setter(e.target.value);
 	};
 	const handleClick = async () => {
-		if(value2 === "" || value <=0){
+		if (value2 === "" || value <= 0) {
 			setResponse("Please enter a valid URL or length");
 			return;
 		}
@@ -70,16 +70,21 @@ export default function Cards() {
 					contentRightStyling={false}
 				/>
 				{!loading ? (
-					<Text
-						size={20}
-						css={{
-							mb: "20px",
-							w: "100%",
-							p: "15px",
-							// textAlign: "justify",
-						}}>
-						{response}
-					</Text>
+					<div>
+						{response.split("\n").map((item, i) => {
+							return (
+								<p
+									key={i}
+									style={{
+										textAlign: "justify",
+										fontSize: "20px",
+										marginBottom: "20px",
+									}}>
+									{item}
+								</p>
+							);
+						})}
+					</div>
 				) : (
 					<Loading type='points' color='warning' />
 				)}
