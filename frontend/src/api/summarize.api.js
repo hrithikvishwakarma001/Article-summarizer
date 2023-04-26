@@ -1,29 +1,16 @@
 import axios from "axios";
+const BASE_URL = "http://localhost:8000/api/summary/";
 const summarize = async (url, length) => {
-	console.log('👻 -> file: summarize.api.js:2 -> summarize -> length:',typeof length, length)
-	console.log('👻 -> file: summarize.api.js:2 -> summarize -> url:',url)
-	const options = {
-		method: "GET",
-		url: "https://article-extractor-and-summarizer.p.rapidapi.com/summarize",
-		params: { url, length:Number(length) },
-		headers: {
-			"X-RapidAPI-Key":
-				"a5bb62a996mshf8a4e5a0ce86dd2p15fe59jsndf94771f5d2d",
-			"X-RapidAPI-Host":
-				"article-extractor-and-summarizer.p.rapidapi.com",
-		},
-	};
-
-	const getData = async () => {
-		console.log("waitng for response...");
-		try {
-			let res = await axios.request(options);
-		  return res.data.summary;
-		} catch (error) {
-			return "Something went wrong! Please try again later.";
-		}
-	};
-	 return getData();
+	try {
+		const response = await axios.post(BASE_URL, { url, length });
+		console.log(
+			"👻 -> file: summarize.api.js:32 -> summarize -> response:",
+			response
+		);
+		return response.data.summary
+	} catch (error) {
+		return error.message;
+	}
 };
 
 export default summarize;

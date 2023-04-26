@@ -4,24 +4,20 @@ import summarize from "../api/summarize.api";
 
 export default function Cards() {
 	const [value, setValue] = React.useState(4);
-	const [value2, setValue2] = React.useState("");
+	const [url, setUrl] = React.useState("");
 	const [response, setResponse] = React.useState("");
 	const [loading, setLoading] = React.useState(false);
 	const setInput = (setter) => (e) => {
 		setter(e.target.value);
 	};
 	const handleClick = async () => {
-		if (value2 === "" || value <= 0) {
+		if (url === "" || value <= 0) {
 			setResponse("Please enter a valid URL or length");
 			return;
 		}
 		setLoading(true);
 		try {
-			let data = await summarize(value2, value);
-			console.log(
-				"👻 -> file: Card.jsx:14 -> handleClick -> data:",
-				data
-			);
+			let data = await summarize(url, value);
 			setResponse(data);
 			setLoading(false);
 		} catch (error) {
@@ -33,8 +29,8 @@ export default function Cards() {
 			<Card.Body>
 				<Input
 					required
-					onChange={setInput(setValue2)}
-					value={value2}
+					onChange={setInput(setUrl)}
+					value={url}
 					underlined
 					labelLeft='URL'
 					placeholder='https://www.@example.com'
@@ -70,20 +66,25 @@ export default function Cards() {
 					contentRightStyling={false}
 				/>
 				{!loading ? (
-					<div>
-						{response.split("\n").map((item, i) => {
-							return (
-								<p
-									key={i}
-									style={{
-										textAlign: "justify",
-										fontSize: "20px",
-										marginBottom: "20px",
-									}}>
-									{item}
-								</p>
-							);
-						})}
+					<div
+						style={{
+							paddingLeft: "15px",
+							paddingRight: "15px",
+						}}>
+						{response &&
+							response.split("\n").map((item, i) => {
+								return (
+									<p
+										key={i}
+										style={{
+											textAlign: "justify",
+											fontSize: "20px",
+											marginBottom: "20px",
+										}}>
+										{item}
+									</p>
+								);
+							})}
 					</div>
 				) : (
 					<Loading type='points' color='warning' />
