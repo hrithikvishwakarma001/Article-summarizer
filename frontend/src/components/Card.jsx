@@ -1,11 +1,12 @@
 import { Button, Card, Input, Loading } from "@nextui-org/react";
 import React from "react";
 import summarize from "../api/summarize.api";
-
+import Keywords from "./Keywords";
 export default function Cards() {
 	const [value, setValue] = React.useState(4);
 	const [url, setUrl] = React.useState("");
 	const [response, setResponse] = React.useState("");
+	const [keyword, setKeyword] = React.useState("");
 	const [loading, setLoading] = React.useState(false);
 	const setInput = (setter) => (e) => {
 		setter(e.target.value);
@@ -18,7 +19,10 @@ export default function Cards() {
 		setLoading(true);
 		try {
 			let data = await summarize(url, value);
-			setResponse(data);
+			console.log('👻 -> file: Card.jsx:10 -> Cards -> keyword:', keyword)
+			console.log('👻 -> file: Card.jsx:29 -> handleClick -> summary:', response)
+			setResponse(data.title+"\n\n"+data.summary);
+			setKeyword(data.keywords);
 			setLoading(false);
 		} catch (error) {
 			setResponse("Something went wrong! Please try again later.");
@@ -71,9 +75,21 @@ export default function Cards() {
 							paddingLeft: "15px",
 							paddingRight: "15px",
 						}}>
+						{response && <Keywords keyArray={keyword}/>}
 						{response &&
 							response.split("\n").map((item, i) => {
-								return (
+								return i === 0 ? (
+									<p
+										key={i}
+										style={{
+											textAlign: "justify",
+											fontSize: "20px",
+											marginBottom: "20px",
+											fontWeight: "bold",
+										}}>
+										{item}
+									</p>
+								) : (
 									<p
 										key={i}
 										style={{

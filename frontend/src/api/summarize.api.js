@@ -7,7 +7,7 @@ const summarize = async (url, length) => {
 			"👻 -> file: summarize.api.js:32 -> summarize -> response:",
 			response
 		);
-		return response.data.summary
+		return response.data
 	} catch (error) {
 		return error.message;
 	}
