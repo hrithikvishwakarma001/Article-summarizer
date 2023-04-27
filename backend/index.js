@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/users", userRouter);
 app.use("/api/summary", summaryRouter);
-app.listen(8000, async () => {
+app.listen(8080, async () => {
 	try {
 		await connect;
 		console.log("mongodb connected successfully 👻");
